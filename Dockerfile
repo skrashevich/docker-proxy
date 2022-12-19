@@ -4,7 +4,9 @@ WORKDIR /proxy/
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt update -y -q && apt install -y -q g++ make libboost-all-dev dpkg-dev git
+RUN apt update -y -q
+RUN apt upgrade -y -q
+RUN apt install -y -q g++ make libboost-all-dev dpkg-dev git
 
 RUN git clone https://github.com/MengRao/TCP-UDP-Proxy.git .
 RUN git config --global advice.detachedHead false
@@ -25,4 +27,4 @@ WORKDIR /proxy/
 
 COPY --from=proxy-builder /root/proxy_server .
 
-ENTRYPOINT echo -e "$LINE1\n$LINE2\n$LINE3\n$LINE4" >> proxy.conf && ./proxy_server
+ENTRYPOINT echo "$LINE1\n$LINE2\n$LINE3\n$LINE4" >> proxy.conf && ./proxy_server
