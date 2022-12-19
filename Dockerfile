@@ -16,7 +16,7 @@ RUN find /usr/lib/ -type f -name 'libboost_*.a' -exec cp -p {} /usr/local/lib/ \
 
 RUN cd src && make -j $(nproc)
 
-FROM debian:stretch-slim
+FROM debian:stretch
 
 ENV LINE1="udp 0 127.0.0.1 0"
 ENV LINE2=""
@@ -27,4 +27,4 @@ WORKDIR /proxy/
 
 COPY --from=proxy-builder /root/proxy_server .
 
-ENTRYPOINT echo "$LINE1\n$LINE2\n$LINE3\n$LINE4" >> proxy.conf && ./proxy_server
+ENTRYPOINT echo "$LINE1\n$LINE2\n$LINE3\n$LINE4" > proxy.conf && ./proxy_server
